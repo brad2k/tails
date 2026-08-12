@@ -1,0 +1,206 @@
+---
+import { Image } from "astro:assets";
+import { getCollection, getEntry, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+export const prerender = true;
+
+const { slug } = Astro.params;
+if (!slug) throw new Error("Slug not found");
+
+const cocktail = await getEntry("cocktails", slug);
+if (!cocktail) throw new Error("Cocktail not found");
+
+const { Content } = await render(cocktail);
+
+// Generate static pages
+export async function getStaticPaths() {
+  const cocktails = await getCollection("cocktails");
+  return cocktails.map((cocktail) => ({ params: { slug: cocktail.id } }));
+}
+---
+
+<Layout
+  pageTitle={cocktail.data.name}
+  pageDescription={`Recipe for ${cocktail.data.name}`}
+  className="full-page-wrapper"
+>
+  <article class="recipe-detail">
+    <figure>
+      {
+        cocktail.data.image && (
+          <Image
+            src={cocktail.data.image}
+            alt={cocktail.data.name}
+            width={600}
+            height={400}
+            priority
+            layout="full-width"
+          />
+        )
+      }
+    </figure>
+
+    <div>
+      <header class="flow">
+        <h1>{cocktail.data.name}</h1>
+        {
+          cocktail.data.category && (
+            <ul class="category-list">
+              {cocktail.data.category.map((cat) => (
+                <li>
+                  <strong class="pill">{cat}</strong>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </header>
+
+      <section>
+        <h2 class="subhead">Ingredients</h2>
+        <ul class="ingredients">
+          {
+            cocktail.data.ingredients.map((ingredient) => (
+              <li>
+                <span>
+                  <b>{ingredient.amount}</b>{" "}
+                  {`${ingredient.unit} of
+                  ${ingredient.type.toLowerCase()}`}
+                  {ingredient.garnish && <span class="pill">garnish</span>}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="subhead">Method</h2>
+        <div class="content-wrapper"><Content /></div>
+      </section>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .full-page-wrapper {
+    max-inline-size: 70ch;
+    margin-inline: auto;
+    container-type: inline-size;
+    container-name: recipe-layout;
+  }
+
+  .recipe-detail {
+    --padding-block-start: var(--space-xl);
+    --padding-inline: var(--space-xs);
+
+    padding-block-start: var(--padding-block-start);
+    padding-inline: var(--padding-inline, var(--space-s));
+    padding-block-end: var(--space-s);
+    font-size: var(--font-size-subtle);
+    max-inline-size: var(--prose-max-width);
+    margin-block: 0;
+    margin-inline: auto;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+
+    img {
+      border-radius: 1rem;
+      inline-size: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-l);
+    }
+  }
+
+  @container recipe-layout (min-inline-size: 720px) {
+    .recipe-detail {
+      --padding-inline: 0;
+
+      grid-template-columns: 1fr 2fr;
+      align-items: start;
+    }
+  }
+
+  .category-list {
+    display: flex;
+    gap: var(--space-s);
+
+    strong {
+      text-transform: uppercase;
+      font-size: var(--font-size-small);
+      font-weight: var(--font-weight-normal);
+      letter-spacing: 0.15em;
+    }
+  }
+
+  .ingredients,
+  .content-wrapper ol {
+    li {
+      padding-inline-start: var(--space-m);
+      position: relative;
+      margin-block-start: var(--space-xs);
+
+      &::before {
+        position: absolute;
+        inset-inline-start: 0;
+        inset-block-start: var(--block-start-position, 0);
+        color: var(--color-border);
+      }
+    }
+  }
+
+  .ingredients {
+    li {
+      padding-block-start: var(--space-xs);
+      border-block-start: 1px solid var(--color-border);
+
+      &:first-child {
+        border-block-start-width: 0;
+        margin-block-start: 0;
+        padding-block-start: 0;
+      }
+
+      &::before {
+        --block-start-position: calc(50% - var(--space-xs));
+        content: "•";
+      }
+    }
+
+    .pill {
+      margin-inline-start: var(--space-xs);
+      font-size: var(--font-size-extra-small);
+    }
+  }
+
+  .content-wrapper ol {
+    list-style-type: none;
+    padding: 0;
+    counter-reset: count;
+
+    li {
+      counter-increment: count;
+
+      &::before {
+        content: counter(count, alpha) ".";
+      }
+    }
+  }
+
+  .subhead {
+    text-transform: uppercase;
+    font-family: var(--font-DMSans);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.1em;
+    margin-block-end: var(--space-m);
+  }
+</style>

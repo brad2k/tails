@@ -1,0 +1,54 @@
+@layer compositions {
+  /* Content grid */
+  .content-grid {
+    --gap: clamp(1rem, 6vw, 3rem);
+    --full: minmax(var(--gap), 1fr);
+    --content: min(80rem, 100% - var(--gap) * 2);
+
+    display: grid;
+    grid-template-columns:
+      [full-start] var(--full)
+      [content-start] var(--content) [content-end]
+      var(--full) [full-end];
+    align-content: start;
+
+    & > * {
+      grid-column: content;
+    }
+  }
+
+  /*
+    Flow
+    https://piccalil.li/blog/flow-utility/
+  */
+
+  :where(.flow > * + *):not(hr) {
+    margin-block-start: var(--flow-space, 1em);
+  }
+
+  /*
+    AUTO GRID
+    More info on the flexible nature: https://piccalil.li/blog/create-a-responsive-grid-layout-with-no-media-queries-using-css-grid/
+    A flexible layout that will create an auto-fill grid with
+    configurable grid item sizes
+
+    CUSTOM PROPERTIES AND CONFIGURATION
+    --gutter (var(--space-l)): This defines the space
+    between each item.
+
+    --grid-min-item-size (16rem): How large each item should be
+    ideally, as a minimum.
+
+    --grid-placement (auto-fill): Set either auto-fit or auto-fill
+    to change how empty grid tracks are handled
+  */
+
+  :where(.grid) {
+    display: grid;
+    grid-template-columns: repeat(
+      var(--grid-placement, auto-fill),
+      minmax(var(--grid-min-item-size, 16rem), 1fr)
+    );
+    gap: var(--gutter, var(--space-l));
+  }
+}

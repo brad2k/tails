@@ -1,0 +1,279 @@
+---
+import { ArrowRight } from "@lucide/astro";
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import { ROLLUP_CATEGORIES } from "../content/categories";
+import Layout from "../layouts/Layout.astro";
+
+const cocktails = await getCollection("cocktails");
+---
+
+<script src="../scripts/recipes.ts"></script>
+
+<Layout pageTitle="Tails — cocktail library" pageDescription="Cocktail recipes">
+  <section class="recipe-grid">
+    <header class="hero flow">
+      <h2>What are you in the mood for?</h2>
+      <p>
+        I have{` `}<span class="pill">{cocktails.length} recipes</span>{` `}on
+        offer.
+      </p>
+    </header>
+
+    <nav class="category-nav">
+      <ul class="categories">
+        <li class="category">
+          <button data-category="">Everything</button>
+        </li>
+        {
+          ROLLUP_CATEGORIES.map(({ label, value }) => (
+            <li class="category">
+              <button data-category={value}>{label}</button>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <ul class="recipes grid">
+      {
+        cocktails.map((cocktail) => (
+          <li class="recipe" data-category={cocktail.data.category.join(" ")}>
+            {cocktail.data.image && (
+              <a href={`/cocktails/${cocktail.id}`}>
+                <Image
+                  src={cocktail.data.image}
+                  alt={cocktail.data.name}
+                  width={600}
+                  height={400}
+                />
+              </a>
+            )}
+            <div class="flow">
+              <strong>{cocktail.data.category.join(" / ")}</strong>
+              <a href={`/cocktails/${cocktail.id}`} class="name">
+                {cocktail.data.name} <ArrowRight />
+              </a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Layout>
+
+<!-- <dialog id="cocktail-dialog" closedby="any">
+  <button commandfor="cocktail-dialog" command="close">
+    <span class="visually-hidden">Close</span>
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div id="cocktail-container"></div>
+</dialog> -->
+
+<style>
+  /* #cocktail-dialog {
+    opacity: 0;
+    inline-size: calc(100vi - 1rem);
+    block-size: calc(100svb - 1rem);
+
+    background: var(--color-bg);
+    color: var(--color-text);
+    padding: 0;
+    border-width: 0;
+    border-radius: 1rem;
+    transition:
+      opacity var(--transition-base),
+      display var(--transition-base) allow-discrete,
+      overlay var(--transition-base) allow-discrete;
+
+    &[open] {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+
+      &::backdrop {
+        background-color: rgba(0, 0, 0, 0.5);
+
+        @starting-style {
+          background-color: rgb(0 0 0 / 0);
+        }
+      }
+    }
+  }
+
+  #cocktail-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(2px);
+    transition:
+      background-color 0.3s ease-out,
+      display var(--transition-base) allow-discrete,
+      overlay var(--transition-base) allow-discrete;
+  } */
+
+  .category-nav {
+    margin-block-end: var(--space-l);
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    inline-size: fit-content;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    overflow: hidden;
+    padding: 2px;
+  }
+
+  .categories {
+    display: flex;
+    gap: var(--space-xs);
+    inline-size: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    white-space: nowrap;
+    animation: toggle-scroll-fade linear;
+    animation-timeline: scroll(self inline);
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .category {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+
+    button {
+      font-size: var(--font-size-small);
+      text-transform: uppercase;
+      font-weight: var(--font-weight-normal);
+      letter-spacing: 0.1em;
+      border: 1px solid transparent;
+      border-radius: 9999px;
+      padding-block: var(--space-xs);
+      padding-inline: var(--space-s);
+      transition: background-color var(--transition-base);
+
+      &[aria-pressed="true"],
+      &:hover {
+        border-color: var(--color-border);
+        background-color: var(--color-ocean);
+      }
+    }
+  }
+
+  @keyframes toggle-scroll-fade {
+    /* At scroll start: only fade the right edge */
+    0% {
+      mask-image: linear-gradient(
+        to right,
+        black calc(100% - 3rem),
+        transparent
+      );
+    }
+    /* In the middle: fade both left and right edges */
+    10%,
+    90% {
+      mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 3rem,
+        black calc(100% - 3rem),
+        transparent
+      );
+    }
+    /* At scroll end: only fade the left edge */
+    100% {
+      mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 3rem,
+        black 100%
+      );
+    }
+  }
+
+  .recipe-grid {
+    max-inline-size: var(--prose-max-width);
+    margin-block: 0;
+    margin-inline: auto;
+    container-type: inline-size;
+    container-name: recipe-grid;
+  }
+
+  .recipes {
+    --gutter: var(--space-s);
+    --grid-min-item-size: 1fr;
+    row-gap: var(--space-2xl);
+    transition: gap var(--transition-base);
+
+    @container recipe-grid (min-inline-size: 17rem) {
+      --grid-min-item-size: 16rem;
+    }
+
+    @container recipe-grid (min-inline-size: 39rem) {
+      --gutter: var(--space-xl);
+    }
+  }
+
+  .recipe {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    min-inline-size: 0;
+
+    &[hidden] {
+      display: none;
+    }
+
+    img {
+      display: block;
+      aspect-ratio: 16 / 9;
+      border-radius: 1rem;
+    }
+
+    strong {
+      display: block;
+      text-transform: uppercase;
+      font-size: var(--font-size-extra-small);
+      font-weight: var(--font-weight-normal);
+      letter-spacing: 0.15em;
+      border-block-end: 1px solid var(--color-border);
+      padding-block-end: 2px;
+    }
+
+    > .flow {
+      --flow-space: var(--space-s);
+      padding-block: 0;
+      padding-inline: var(--space-xs);
+    }
+
+    .name {
+      font-size: var(--font-size-h5);
+      line-height: var(--leading-fine);
+      font-weight: var(--font-weight-medium);
+      letter-spacing: -0.01em;
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+
+      svg {
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .hero {
+    margin-block: var(--space-3xl);
+    text-align: center;
+    font-size: var(--font-size-base);
+
+    h2 {
+      font-size: var(--font-size-h1);
+      text-shadow: var(--color-ocean) 1px 0 1px;
+    }
+  }
+</style>

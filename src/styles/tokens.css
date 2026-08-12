@@ -1,0 +1,79 @@
+:root {
+  /*
+    Theme setup
+
+    - Light by default; will follow system preference
+    - Initializing a theme variable for future use with style queries
+    - Set theme variable based on theme overrides (in the future)
+  */
+  color-scheme: light dark;
+
+  --theme: light;
+
+  /* Have data-theme use the variable */
+  &[data-theme] {
+    color-scheme: var(--theme);
+  }
+
+  &[data-theme="light"] {
+    --theme: light;
+  }
+
+  &[data-theme="dark"] {
+    --theme: dark;
+  }
+
+  /* Token definitions */
+
+  /* Structural spacing & measurements */
+
+  --gutter: var(--space-m);
+  --prose-max-width: 70ch;
+
+  /* Colors */
+
+  --color-bg: light-dark(var(--color-sky), var(--color-navy));
+  --color-surface: light-dark(
+    oklch(from var(--color-sky) 0.5 c h),
+    oklch(from var(--color-navy) 0.45 c h)
+  );
+  --color-border: light-dark(
+    oklch(0.779 0.035 232.8),
+    oklch(0.721 0.031 236.6)
+  ); /* #A1BCCA, #93A8B6 */
+
+  /* Typography colors */
+
+  --color-text: #fff;
+
+  /* Interaction colors */
+  --focus-color: var(--color-accent);
+  --selection-text-color: #fff;
+  --selection-background: light-dark(var(--color-navy), var(--color-sky));
+
+  /* Typography */
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --font-size-extra-small: var(--text-size-step-000);
+  --font-size-small: var(--text-size-step-00);
+  --font-size-subtle: var(--text-size-step-0);
+  --font-size-base: var(--text-size-step-1);
+  --font-size-h1: var(--text-size-step-6);
+  --font-size-h2: var(--text-size-step-4);
+  --font-size-h3: var(--text-size-step-3);
+  --font-size-h4: var(--text-size-step-3);
+  --font-size-h5: var(--text-size-step-2);
+  --font-size-h6: var(--text-size-step-1);
+
+  --leading-flat: var(--text-line-height-flat);
+  --leading-fine: var(--text-line-height-fine);
+  --leading-standard: var(--text-line-height-standard);
+  --leading-loose: var(--text-line-height-loose);
+
+  /* Animations */
+  --transition-base: 250ms ease;
+  --transition-fade: 500ms ease;
+}

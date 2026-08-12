@@ -1,0 +1,52 @@
+@layer utilities {
+  /* Prose */
+
+  .prose {
+    h1 {
+      max-inline-size: var(--prose-h1-max-width, 20ch);
+    }
+
+    h2 {
+      max-inline-size: var(--prose-h1-max-width, 35ch);
+    }
+
+    h3 {
+      max-inline-size: var(--prose-h1-max-width, 40ch);
+    }
+
+    :is(p, li, dl, figcaption, blockquote) {
+      max-inline-size: var(--prose-width, var(--prose-max-width));
+    }
+  }
+
+  .subtle {
+    font-size: var(--font-size-subtle);
+  }
+
+  /*
+    Visually hidden
+    https://piccalil.li/blog/visually-hidden/
+  */
+
+  .visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    block-size: 0;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    inline-size: 1px;
+    white-space: nowrap;
+  }
+
+  /* Pill */
+
+  .pill {
+    display: inline-block;
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    padding-block: 0.125rem;
+    padding-inline: 0.75rem;
+  }
+}

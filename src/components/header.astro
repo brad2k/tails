@@ -1,0 +1,59 @@
+<header class="header">
+  <div>
+    <a class="logo" href="/">Tails</a>
+    <h1>Cocktail recipes</h1>
+    <!-- <div class="search">
+      <button id="search-button"><Search height={21} width={21} /></button>
+    </div> -->
+  </div>
+</header>
+
+<style>
+  .header > div {
+    display: flex;
+    gap: var(--space-l);
+    align-items: center;
+    padding-block: var(--space-s);
+    padding-inline: var(--space-m);
+    border: 1px solid oklch(from var(--color-ocean) 0.6 c h);
+    background-color: var(--color-surface);
+    border-radius: 1rem;
+
+    @media (max-width: 600px) {
+      gap: var(--space-s);
+    }
+  }
+
+  .header h1 {
+    text-transform: uppercase;
+    font-family: var(--font-DMSans);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.1em;
+  }
+
+  .logo {
+    font-family: var(--font-ClimateCrisis);
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-normal);
+    font-variation-settings: "YEAR" 2000;
+    display: block;
+    line-height: var(--leading-flat);
+    text-wrap: nowrap;
+  }
+
+  /* .search {
+    margin-inline-start: auto;
+  }
+
+  #search-button {
+    display: grid;
+    align-items: center;
+    padding: 0.3125rem;
+
+    &:hover {
+      outline: 1px solid var(--color-border);
+      border-radius: 50%;
+    }
+  } */
+</style>
