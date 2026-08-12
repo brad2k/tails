@@ -2,9 +2,12 @@ import { config, fields, collection } from "@keystatic/core";
 import { ROLLUP_CATEGORIES } from "./src/content/categories";
 
 export default config({
-  storage: {
-    kind: "local",
-  },
+  storage: import.meta.env.DEV
+    ? { kind: "local" }
+    : {
+        kind: "github",
+        repo: "brad2k/tails",
+      },
   ui: {
     brand: {
       name: "Tails",

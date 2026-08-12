@@ -37,8 +37,8 @@ export default defineConfig({
       provider: fontProviders.google(),
       name: "Fraunces",
       cssVariable: "--font-Fraunces",
-      weights: ["400 900"],
-      styles: ["normal", "italic"],
+      weights: ["700"],
+      styles: ["normal"],
       options: {
         experimental: {
           variableAxis: {
