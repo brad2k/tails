@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { getCollection, getEntry, render } from "astro:content";
+import { SquareArrowOutUpRight } from "@lucide/astro";
 import Layout from "../../layouts/Layout.astro";
 
 export const prerender = true;
@@ -52,6 +53,14 @@ export async function getStaticPaths() {
                   <strong class="pill">{cat}</strong>
                 </li>
               ))}
+              {cocktail.data.sourceUrl && (
+                <li>
+                  <SquareArrowOutUpRight />
+                  <a href={cocktail.data.sourceUrl} rel="external noopener">
+                    Source recipe
+                  </a>
+                </li>
+              )}
             </ul>
           )
         }
@@ -139,6 +148,16 @@ export async function getStaticPaths() {
       font-size: var(--font-size-small);
       font-weight: var(--font-weight-normal);
       letter-spacing: 0.15em;
+    }
+
+    svg {
+      stroke: var(--color-border);
+    }
+
+    li {
+      display: inherit;
+      gap: var(--space-xs);
+      align-items: center;
     }
   }
 
