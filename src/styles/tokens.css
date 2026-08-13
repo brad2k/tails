@@ -1,27 +1,17 @@
 :root {
   /*
     Theme setup
-
     - Light by default; will follow system preference
-    - Initializing a theme variable for future use with style queries
-    - Set theme variable based on theme overrides (in the future)
+    - Color scheme is set in the <head> tag
   */
-  color-scheme: light dark;
 
   --theme: light;
 
-  /* Have data-theme use the variable */
-  &[data-theme] {
-    color-scheme: var(--theme);
-  }
-
-  &[data-theme="light"] {
-    --theme: light;
-  }
-
-  &[data-theme="dark"] {
+  @media (prefers-color-scheme: dark) {
     --theme: dark;
   }
+
+  color-scheme: var(--theme);
 
   /* Token definitions */
 
@@ -45,9 +35,10 @@
   /* Typography colors */
 
   --color-text: #fff;
+  --color-link-active: oklch(from var(--color-text) 0.95 c h);
 
   /* Interaction colors */
-  --focus-color: var(--color-accent);
+  --focus-color: var(--color-border);
   --selection-text-color: #fff;
   --selection-background: light-dark(var(--color-navy), var(--color-sky));
 

@@ -1,35 +1,17 @@
 <header class="header">
-  <div>
-    <a class="logo" href="/">Tails</a>
-    <h1>Cocktail recipes</h1>
-    <!-- <div class="search">
+  <a class="logo" href="/">Tails</a>
+  <!-- <div class="search">
       <button id="search-button"><Search height={21} width={21} /></button>
     </div> -->
-  </div>
 </header>
 
 <style>
-  .header > div {
-    display: flex;
-    gap: var(--space-l);
-    align-items: center;
+  .header {
     padding-block: var(--space-s);
     padding-inline: var(--space-m);
     border: 1px solid oklch(from var(--color-ocean) 0.6 c h);
     background-color: var(--color-surface);
     border-radius: 1rem;
-
-    @media (max-width: 600px) {
-      gap: var(--space-s);
-    }
-  }
-
-  .header h1 {
-    text-transform: uppercase;
-    font-family: var(--font-body);
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-medium);
-    letter-spacing: 0.1em;
   }
 
   .logo {
@@ -40,6 +22,9 @@
     display: block;
     line-height: var(--leading-flat);
     text-wrap: nowrap;
+
+    paint-order: stroke fill;
+    -webkit-text-stroke: 0.05em var(--color-sky);
   }
 
   /* .search {

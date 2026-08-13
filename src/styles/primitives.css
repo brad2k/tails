@@ -3,22 +3,8 @@
   --color-sky: oklch(0.55 0.072 233.9); /* #447995 */
   --color-navy: oklch(0.42 0.065 240); /* #29526d */
 
-  --color-neutral-50: oklch(0.98 0.01 0); /* #fff6f8 */
-  --color-neutral-100: oklch(0.9 0.01 0); /* #e4dbde */
-  --color-neutral-200: oklch(0.75 0.01 0); /* #b4abad */
-  --color-neutral-400: oklch(0.6 0.01 0); /* #867e80 */
-  --color-neutral-600: oklch(0.45 0.01 0); /* #5a5355 */
-  --color-neutral-700: oklch(0.3 0.01 0); /* #322c2e */
-  --color-neutral-900: oklch(0.15 0.01 0); /* #0f090b */
-
-  /* Option 2: Warm + Cool (active) */
-  --color-accent-warm: oklch(0.6 0.1 80); /* #9f7932 */
-  --color-accent-deep: oklch(0.52 0.075 270); /* #586795 */
-  --color-accent-teal2: oklch(0.6 0.08 180); /* #429082 */
-
+  /* currently unused */
   --color-accent-navy: oklch(0.42 0.065 240); /* #29526d */
-  --color-accent-teal: oklch(0.6 0.08 175); /* #46907d */
-  --color-accent-cyan: oklch(0.65 0.08 200); /* #4c9ea2 */
 
   --font-display: var(--font-Fraunces);
   --font-body: var(--font-DMSans);
