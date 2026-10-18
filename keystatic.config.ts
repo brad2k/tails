@@ -4,10 +4,7 @@ import { ROLLUP_CATEGORIES } from "./src/content/categories";
 export default config({
   storage: import.meta.env.DEV
     ? { kind: "local" }
-    : {
-        kind: "github",
-        repo: "brad2k/tails",
-      },
+    : { kind: "github", repo: { owner: "brad2k", name: "tails" } },
   ui: {
     brand: {
       name: "Tails",
